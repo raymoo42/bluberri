@@ -30,3 +30,8 @@ func _process(delta):
 func _on_Timer_timeout():
 	queue_free()
 	pass # Replace with function body.
+
+
+func _on_Bounce_finished():
+	$Bounce.stop()
+	pass # Replace with function body.
