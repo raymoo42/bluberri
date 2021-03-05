@@ -1,26 +1,53 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://img/bg.png" type="Texture" id=1]
 [ext_resource path="res://img/bluberri.png" type="Texture" id=2]
 [ext_resource path="res://img/bluberriClicked.png" type="Texture" id=3]
 [ext_resource path="res://Game.gd" type="Script" id=4]
 [ext_resource path="res://sound/blop.ogg" type="AudioStream" id=5]
+[ext_resource path="res://sound/bgm.ogg" type="AudioStream" id=6]
+[ext_resource path="res://sound/levelup.ogg" type="AudioStream" id=7]
 
 [sub_resource type="DynamicFontData" id=1]
-hinting = 0
-font_path = "res://DotGothic16-Regular.ttf"
+hinting = 1
+font_path = "res://ttf/DotGothic16-Regular.ttf"
 
 [sub_resource type="DynamicFont" id=2]
 size = 36
 font_data = SubResource( 1 )
 
+[sub_resource type="DynamicFontData" id=5]
+font_path = "res://ttf/DotGothic16-Regular.ttf"
+
+[sub_resource type="DynamicFont" id=6]
+size = 28
+font_data = SubResource( 5 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.243137, 0.733333, 0.176471, 1 )
+
+[sub_resource type="StyleBoxEmpty" id=4]
+
+[sub_resource type="DynamicFontData" id=7]
+font_path = "res://ttf/DotGothic16-Regular.ttf"
+
+[sub_resource type="DynamicFont" id=8]
+size = 12
+outline_color = Color( 0, 0, 0, 1 )
+font_data = SubResource( 7 )
+
 [node name="Game" type="Node"]
 script = ExtResource( 4 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 58.3354 ],
+"_edit_vertical_guides_": [ -96.5599 ]
+}
 
 [node name="UI" type="CanvasLayer" parent="."]
 layer = -1
 
 [node name="BG" type="Sprite" parent="UI"]
+scale = Vector2( 1.08668, 1 )
 texture = ExtResource( 1 )
 centered = false
 
@@ -36,15 +63,51 @@ anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
 margin_left = 8.0
-margin_top = -26.5
-margin_right = 8.0
-margin_bottom = 26.5
+margin_top = -25.7063
+margin_right = -231.0
+margin_bottom = 27.2937
 custom_fonts/font = SubResource( 2 )
 text = "Cookies: 0"
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Level" type="Label" parent="UI/TopBar"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -244.762
+margin_top = -19.9441
+margin_right = -27.7621
+margin_bottom = 28.0559
+custom_fonts/font = SubResource( 6 )
+text = "Level : 000"
+align = 2
+valign = 1
+max_lines_visible = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ExpBar" type="ProgressBar" parent="UI/TopBar"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -8.0
+margin_bottom = 6.0
+custom_styles/fg = SubResource( 3 )
+custom_styles/bg = SubResource( 4 )
+value = 22.0
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lvlupsound" type="AudioStreamPlayer" parent="UI"]
+stream = ExtResource( 7 )
+volume_db = -2.454
 
 [node name="Bluberri" type="Node2D" parent="."]
 position = Vector2( 240, 400 )
@@ -68,10 +131,38 @@ __meta__ = {
 stream = ExtResource( 5 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
+visible = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+visible = false
 position = Vector2( -1.03741, 0 )
 scale = Vector2( 0.99317, 1 )
 build_mode = 1
-polygon = PoolVector2Array( -5.31281, 72.3382, -80.9139, 558.22, -5.64881, 865.233, 118.001, 865.233, 249.715, 797.156, 370.676, 854.554, 484.918, 870.572, 589.751, 547.541, 480.673, 72.725, 480.673, 72.725 )
+polygon = PoolVector2Array( -5.31281, 72.3382, -80.9139, 558.22, -5.64881, 865.233, 118.001, 865.233, 248.348, 811.906, 370.676, 854.554, 484.918, 870.572, 589.751, 547.541, 480.673, 72.725, 480.673, 72.725 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -232.595
+margin_top = -18.0
+margin_right = -1.59491
+margin_bottom = 1.0
+custom_fonts/normal_font = SubResource( 8 )
+meta_underlined = false
+text = "Made with <3 by Raymoo and Suzzy"
+fit_content_height = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+volume_db = -8.564
+autoplay = true
+[connection signal="finished" from="UI/lvlupsound" to="." method="_on_lvlupsound_finished"]
 [connection signal="pressed" from="Bluberri/ClickerButton" to="." method="_on_ClickerButton_pressed"]
