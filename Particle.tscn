@@ -28,5 +28,6 @@ shape = SubResource( 1 )
 stream = ExtResource( 3 )
 volume_db = -12.684
 pitch_scale = 1.04
+
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="finished" from="Bounce" to="." method="_on_Bounce_finished"]

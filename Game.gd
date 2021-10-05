@@ -4,6 +4,7 @@ var cookies = 0
 var xp = 0.5
 var level = 1
 const particle = preload("res://Particle.tscn")
+const lvlupsound = preload("res://Levelup.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -13,7 +14,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	$Bluberri.rotate(0.005)
+	$Bluberri.rotate(delta * log(level + 1))
 	pass
 
 func _update_cookie_label():
@@ -27,8 +28,8 @@ func _on_ClickerButton_pressed():
 	if xp >= 100.0:
 		level += round(xp / 100.0)
 		xp = 0
-		$UI/lvlupsound.play()
-		
+		play_sound()
+	
 	_update_cookie_label()
 	_make_particle()
 	# $Bluberri/Bleep.s
@@ -40,7 +41,6 @@ func _make_particle():
 	# p.rotation = 0
 	add_child(p)
 
-func _on_lvlupsound_finished():
-	print ("I stopped playing audio")
-	$UI/lvlupsound.stop()
-	pass # Replace with function body.
+func play_sound():
+	var l = lvlupsound.instance()
+	add_child(l)
